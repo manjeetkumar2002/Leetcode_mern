@@ -1,5 +1,5 @@
 const cloudinary = require("cloudinary").v2
-const Problem = require("../models/Problem")
+const Problem = require("../models/problem")
 const User = require("../models/user")
 const SolutionVideo = require("../models/solutionVideo")
 
