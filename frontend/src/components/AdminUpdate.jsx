@@ -11,7 +11,9 @@ const AdminUpdate = () => {
   const fetchProblems = async () => {
     try {
       setLoading(true);
-      const { data } = await axiosClient.get('/problem/getAllProblem');
+      const { data } = await axiosClient.get('/problem/getAllProblem',{
+          withCredentials: true
+        });
       setProblems(data);
     } catch (err) {
       setError('Failed to fetch problems');

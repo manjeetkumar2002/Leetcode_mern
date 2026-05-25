@@ -77,10 +77,8 @@ const login = async (req,res)=>{
         const token = jwt.sign({_id:user._id,role:user.role,emailId:emailId},process.env.JWT_KEY,{expiresIn:60*60})
 
         // store the token into cookie
-        res.cookie("token",token,{maxAge:60*60*1000},{
-    httpOnly: true,
-    secure: true,
-    sameSite: "None"
+       res.cookie("token", token, {
+    maxAge: 60 * 60 * 1000,
 }) // maxAge is expire time of cookie in milliseconds
 
         // sending the data in json format to frontend

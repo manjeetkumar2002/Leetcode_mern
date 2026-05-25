@@ -18,7 +18,9 @@ function Homepage() {
   useEffect(() => {
     const fetchProblems = async () => {
       try {
-        const { data } = await axiosClient.get('/problem/getAllProblem');
+        const { data } = await axiosClient.get('/problem/getAllProblem',{
+          withCredentials: true
+        });
         setProblems(data);
       } catch (error) {
         console.error('Error fetching problems:', error);

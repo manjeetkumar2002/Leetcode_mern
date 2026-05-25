@@ -96,7 +96,9 @@ function AdminUpdateForm() {
     const fetchProblem = async () => {
       setLoading(true);
       try {
-        const response = await axiosClient.get(`/problem/admin/${problemId}`);
+        const response = await axiosClient.get(`/problem/admin/${problemId}`,{
+          withCredentials: true
+        });
         const problemData = response.data;
         
         const formData = {
