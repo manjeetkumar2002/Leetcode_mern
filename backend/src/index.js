@@ -21,6 +21,7 @@ app.use(cors({
   origin:process.env.CORS_ORIGIN,
   credentials:true
 }))
+app.set("trust proxy", 1)
 // userAuth apis
 app.use("/user",authRouter) 
 app.use("/problem",problemRouter) 

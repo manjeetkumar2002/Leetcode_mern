@@ -78,7 +78,10 @@ const login = async (req,res)=>{
 
         // store the token into cookie
        res.cookie("token", token, {
-    maxAge: 60 * 60 * 1000,
+    httpOnly: true,
+    secure: true,
+    sameSite: "None",
+    maxAge: 60 * 60 * 1000
 }) // maxAge is expire time of cookie in milliseconds
 
         // sending the data in json format to frontend
