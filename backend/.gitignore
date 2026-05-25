@@ -1,0 +1,20 @@
+# Dependencies
+node_modules/
+jspm_packages/
+
+# Logs and debug
+logs
+*.log
+npm-debug.log*
+
+# Environment
+.env
+.env.test
+
+# Build/Cache
+dist
+build/
+.cache
+.npm
+
+readme.md/
