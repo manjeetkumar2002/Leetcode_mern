@@ -31,7 +31,7 @@ const register = async (req,res)=>{
         res.cookie("token", token, {
     httpOnly: true,
     secure: true,
-    sameSite: "None",
+    sameSite: "none",
     maxAge: 60 * 60 * 1000
 }) // maxAge is expire time of cookie in milliseconds
 
@@ -85,7 +85,7 @@ const login = async (req,res)=>{
        res.cookie("token", token, {
     httpOnly: true,
     secure: true,
-    sameSite: "None",
+    sameSite: "none",
     maxAge: 60 * 60 * 1000
 }) // maxAge is expire time of cookie in milliseconds
 
@@ -125,7 +125,7 @@ const logout = async (req,res)=>{
         res.clearCookie("token", {
     httpOnly: true,
     secure: true,
-    sameSite: "None"
+    sameSite: "none"
 })
         res.status(200).send("Logout successfully")
     }
@@ -167,7 +167,7 @@ const adminRegister = async (req,res)=>{
         res.cookie("token", token, {
     httpOnly: true,
     secure: true,
-    sameSite: "None",
+    sameSite: "none",
     maxAge: 60 * 60 * 1000
 }) // maxAge is expire time of cookie in milliseconds
 
