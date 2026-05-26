@@ -29,8 +29,8 @@ const register = async (req,res)=>{
 
         // store the token into cookie
         res.cookie("token", token, {
-    httpOnly: true,
-    secure: true,
+    httpOnly: false,
+    secure: false,
     sameSite: 'none',
     path: '/',
     maxAge: 60 * 60 * 1000
@@ -84,8 +84,8 @@ const login = async (req,res)=>{
 
         // store the token into cookie
        res.cookie("token", token, {
-    httpOnly: true,
-    secure: true,
+    httpOnly: false,
+    secure: false,
     sameSite: 'none',
     path: '/',
     maxAge: 60 * 60 * 1000
@@ -125,8 +125,8 @@ const logout = async (req,res)=>{
         // clear the cookie
         // res.cookie("token",null,{expires: new Date(Date.now())})
         res.clearCookie("token", {
-    httpOnly: true,
-    secure: true,
+    httpOnly: false,
+    secure: false,
     sameSite: "none"
 })
         res.status(200).send("Logout successfully")
@@ -167,8 +167,8 @@ const adminRegister = async (req,res)=>{
 
         // store the token into cookie
         res.cookie("token", token, {
-    httpOnly: true,
-    secure: true,
+    httpOnly: false,
+    secure: false,
     sameSite: 'none',
     path: '/',
     maxAge: 60 * 60 * 1000
