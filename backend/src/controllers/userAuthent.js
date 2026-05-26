@@ -121,7 +121,12 @@ const logout = async (req,res)=>{
         //  set the expiry of token
         await redisClient.expireAt(`token:${token}`,payload.exp)
         // clear the cookie
-        res.cookie("token",null,{expires: new Date(Date.now())})
+        // res.cookie("token",null,{expires: new Date(Date.now())})
+        res.clearCookie("token", {
+    httpOnly: true,
+    secure: true,
+    sameSite: "None"
+})
         res.status(200).send("Logout successfully")
     }
     catch (err){
@@ -159,7 +164,12 @@ const adminRegister = async (req,res)=>{
         const token = jwt.sign({_id:user._id,role:user.role,emailId:emailId},process.env.JWT_KEY,{expiresIn:60*60})
 
         // store the token into cookie
-        res.cookie("token",token,{maxAge:60*60*1000}) // maxAge is expire time of cookie in milliseconds
+        res.cookie("token", token, {
+    httpOnly: true,
+    secure: true,
+    sameSite: "None",
+    maxAge: 60 * 60 * 1000
+}) // maxAge is expire time of cookie in milliseconds
 
 
         res.status(201).send("User Register Successfully!")

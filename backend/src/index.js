@@ -14,13 +14,14 @@ const cors = require("cors")
 
 
 const app = express();
-// parsing req.body and cookie data into js object
-app.use(express.json())
-app.use(cookieParser())
+
 app.use(cors({
   origin:process.env.CORS_ORIGIN,
   credentials:true
 }))
+// parsing req.body and cookie data into js object
+app.use(express.json())
+app.use(cookieParser())
 app.set("trust proxy", 1)
 // userAuth apis
 app.use("/user",authRouter) 
