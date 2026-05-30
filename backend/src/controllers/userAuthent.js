@@ -28,13 +28,7 @@ const register = async (req,res)=>{
         const token = jwt.sign({_id:user._id,role:"user",emailId:emailId},process.env.JWT_KEY,{expiresIn:60*60})
 
         // store the token into cookie
-        res.cookie("token", token, {
-    httpOnly: false,
-    secure: false,
-    sameSite: 'none',
-    path: '/',
-    maxAge: 60 * 60 * 1000
-}) // maxAge is expire time of cookie in milliseconds
+        res.cookie("token", token, {maxAge: 60 * 60 * 1000}) // maxAge is expire time of cookie in milliseconds
 
         //sending the data to frontend
         const reply = {
@@ -83,13 +77,7 @@ const login = async (req,res)=>{
         const token = jwt.sign({_id:user._id,role:user.role,emailId:emailId},process.env.JWT_KEY,{expiresIn:60*60})
 
         // store the token into cookie
-       res.cookie("token", token, {
-    httpOnly: false,
-    secure: false,
-    sameSite: 'none',
-    path: '/',
-    maxAge: 60 * 60 * 1000
-}) // maxAge is expire time of cookie in milliseconds
+       res.cookie("token", token, {maxAge: 60 * 60 * 1000})// maxAge is expire time of cookie in milliseconds
 
         // sending the data in json format to frontend
         const reply = {
@@ -123,12 +111,7 @@ const logout = async (req,res)=>{
         //  set the expiry of token
         await redisClient.expireAt(`token:${token}`,payload.exp)
         // clear the cookie
-        // res.cookie("token",null,{expires: new Date(Date.now())})
-        res.clearCookie("token", {
-    httpOnly: false,
-    secure: false,
-    sameSite: "none"
-})
+        res.cookie("token",null,{expires: new Date(Date.now())})
         res.status(200).send("Logout successfully")
     }
     catch (err){
@@ -166,14 +149,7 @@ const adminRegister = async (req,res)=>{
         const token = jwt.sign({_id:user._id,role:user.role,emailId:emailId},process.env.JWT_KEY,{expiresIn:60*60})
 
         // store the token into cookie
-        res.cookie("token", token, {
-    httpOnly: false,
-    secure: false,
-    sameSite: 'none',
-    path: '/',
-    maxAge: 60 * 60 * 1000
-}) // maxAge is expire time of cookie in milliseconds
-
+        res.cookie("token", token, {maxAge: 60 * 60 * 1000}) // maxAge is expire time of cookie in milliseconds
 
         res.status(201).send("User Register Successfully!")
     }
