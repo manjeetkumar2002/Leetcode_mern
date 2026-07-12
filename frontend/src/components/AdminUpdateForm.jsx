@@ -10,7 +10,7 @@ const problemSchema = z.object({
   title: z.string().min(1, 'Title is required'),
   description: z.string().min(1, 'Description is required'),
   difficulty: z.enum(['easy', 'medium', 'hard']),
-  tags: z.enum(['array', 'linkedlist', 'graph', 'dp']),
+  tags: z.enum(['array','linkedlist','graph','dp','math','string','stack','queue','tree']),
   visibleTestCases: z.array(
     z.object({
       input: z.string().min(1, 'Input is required'),
@@ -134,7 +134,6 @@ function AdminUpdateForm() {
   }, [problemId, reset]);
 
   const onSubmit = async (data) => {
-    console.log("✅ onSubmit called with data:", data);
     try {
       await axiosClient.put(`/problem/update/${problemId}`, data);
       alert('Problem updated successfully!');
@@ -145,7 +144,6 @@ function AdminUpdateForm() {
   };
 
   const onError = (errors) => {
-    console.log("❌ Form validation failed!", errors);
     alert("Please check all fields. Error: " + JSON.stringify(errors, null, 2));
   };
 
@@ -153,9 +151,6 @@ function AdminUpdateForm() {
   const checkValidation = async () => {
     const isValid = await trigger();
     const values = getValues();
-    console.log("Current Values:", values);
-    console.log("Is Valid:", isValid);
-    console.log("Errors:", errors);
   };
 
   if (loading) {
@@ -239,8 +234,13 @@ function AdminUpdateForm() {
                 >
                   <option value="array">Array</option>
                   <option value="linkedlist">Linked List</option>
+                  <option value="stack">Stack</option>
+                  <option value="queue">Queue</option>
+                  <option value="tree">Tree</option>
                   <option value="graph">Graph</option>
                   <option value="dp">DP</option>
+                  <option value="math">Math</option>
+                  <option value="string">String</option>
                 </select>
               </div>
             </div>

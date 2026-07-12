@@ -9,7 +9,7 @@ const problemSchema = z.object({
   title: z.string().min(1, 'Title is required'),
   description: z.string().min(1, 'Description is required'),
   difficulty: z.enum(['easy', 'medium', 'hard']),
-  tags: z.enum(['array', 'linkedlist', 'graph', 'dp']),
+  tags: z.enum(['array','linkedlist','graph','dp','math','string','stack','queue','tree']),
   visibleTestCases: z.array(
     z.object({
       input: z.string().min(1, 'Input is required'),
@@ -80,7 +80,6 @@ function AdminPanel() {
 
   const onSubmit = async (data) => {
     try {
-      console.log("submited:",data)
       await axiosClient.post('/problem/create', data);
       alert('Problem created successfully!');
       navigate('/');
@@ -148,9 +147,14 @@ function AdminPanel() {
                   className={`select select-bordered ${errors.tags && 'select-error'}`}
                 >
                   <option value="array">Array</option>
-                  <option value="linkedList">Linked List</option>
+                  <option value="linkedlist">Linked List</option>
+                  <option value="stack">Stack</option>
+                  <option value="queue">Queue</option>
+                  <option value="tree">Tree</option>
                   <option value="graph">Graph</option>
                   <option value="dp">DP</option>
+                  <option value="math">Math</option>
+                  <option value="string">String</option>
                 </select>
               </div>
             </div>
