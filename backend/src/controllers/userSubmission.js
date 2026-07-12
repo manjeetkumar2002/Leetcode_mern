@@ -43,6 +43,12 @@ const submitCode = async(req,res)=>{
         }})
         // submit the batch
         const submitResult = await submitBatch(submissions) // it return array of tokens  (//step : create a submission Batch)
+        if (!submitResult) {
+    return res.status(500).json({
+        success: false,
+        message: "Judge0 did not return response"
+    });
+}
         // (get a submission batch (we get the actual result with the help of this tokens))
         const resultToken = submitResult.map((value)=>value.token) // making a array of tokens values ['token1value','token2value']
         // submit the tokens
@@ -97,9 +103,20 @@ const submitCode = async(req,res)=>{
 
 
     } catch (err) {
-        console.log("Error :",err)
-         res.status(500).send("Internal Server Error :"+err)
+    console.log(err);
+
+    if (err.response?.status === 429) {
+        return res.status(429).json({
+            success: false,
+            message: "The code execution service has reached its daily limit. Please try again tomorrow."
+        });
     }
+
+    return res.status(500).json({
+        success: false,
+        message: "Internal Server Error"
+    });
+}
 
 }
 // same code as submit code but we dont have to saved it in db
@@ -127,7 +144,12 @@ const runCode = async(req,res)=>{
             }})
             // submit the batch
             const submitResult = await submitBatch(submissions) // it return array of tokens  (//step : create a submission Batch)
-        
+            if (!submitResult) {
+            return res.status(500).json({
+                success: false,
+                message: "Judge0 did not return response"
+            });
+}
             // (get a submission batch (we get the actual result with the help of this tokens))
             const resultToken = submitResult.map((value)=>value.token) // making a array of tokens values ['token1value','token2value']
             // submit the tokens
@@ -169,8 +191,20 @@ const runCode = async(req,res)=>{
 
 
     } catch (err) {
-         res.status(500).send("Internal Server Error :"+err)
+    console.log(err);
+
+    if (err.response?.status === 429) {
+        return res.status(429).json({
+            success: false,
+            message: "The code execution service has reached its daily limit. Please try again tomorrow."
+        });
     }
+
+    return res.status(500).json({
+        success: false,
+        message: "Internal Server Error"
+    });
+}
 }
 
 

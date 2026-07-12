@@ -82,7 +82,6 @@ Remember: Your goal is to help users learn and understand DSA concepts through t
 `
             }
         });
-        console.log("ai :",response.text)
         res.status(201).json({
         message:response.text
     });

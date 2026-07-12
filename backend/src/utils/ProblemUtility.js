@@ -34,6 +34,7 @@ const submitBatch = async (submissions) => {
       return response.data;
     } catch (error) {
       console.error(error);
+      throw error
     }
   }
 
@@ -41,9 +42,11 @@ const submitBatch = async (submissions) => {
 };
 
 // wait for 1 sec
-const waiting = async (timer)=>{
-  setTimeout(()=>{return 1},timer)
-}
+const waiting = (timer) => {
+  return new Promise((resolve) => {
+    setTimeout(resolve, timer);
+  });
+};
 
 const submitToken = async (resultToken) => {
   // get a batch submission code
@@ -68,20 +71,23 @@ const submitToken = async (resultToken) => {
       return response.data;
     } catch (error) {
       console.error(error);
+      throw error
     }
   }
   // call the until you get the data
   while (true) {
     const result = await fetchData();
     // if status_id is < 3 then we have to call this again 1 means in queue ,2 means pending
-
+    if (!result || !result.submissions) {
+        throw new Error("Judge0 did not return submissions");
+    }
     const isResultObtained = result.submissions.every((r) => r.status_id > 2);
 
     if (isResultObtained) {
       return result.submissions;
     }
     // wait for 1 seconds then call fetchdata again
-    waiting(1000);
+    await waiting(1000);
   }
 };
 
