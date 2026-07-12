@@ -16,7 +16,7 @@ const cors = require("cors")
 const app = express();
 
 app.use(cors({
-  origin:["http://localhost:5173"],
+  origin:["http://localhost:5173","https://leetcode-mern.onrender.com"],
   credentials:true
 }))
 // parsing req.body and cookie data into js object
