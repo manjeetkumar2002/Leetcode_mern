@@ -115,8 +115,7 @@ function Homepage() {
 
         {/* Problems List */}
         <div className="grid gap-4">
-          {filteredProblems.length>0? 
-          filteredProblems.map(problem => (
+          {filteredProblems.map(problem => (
             <div key={problem._id} className="card bg-base-100 shadow-xl">
               <div className="card-body">
                 <div className="flex items-center justify-between">
@@ -145,9 +144,7 @@ function Homepage() {
                 </div>
               </div>
             </div>
-          ))
-          : <div className='text-left font-semibold text-2xl'>No Problem Found!</div>
-        }
+          ))}
         </div>
       </div>
     </div>
