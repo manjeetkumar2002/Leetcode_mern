@@ -16,7 +16,7 @@ function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { isAuthenticated, loading, error } = useSelector((state) => state.auth);
+  const { isAuthenticated, loading} = useSelector((state) => state.auth);
   const {
     register,
     handleSubmit,
@@ -32,7 +32,6 @@ function Login() {
   const onSubmit = (data) => {
     dispatch(loginUser(data));
   };
-
   return (
     <div className="min-h-screen flex items-center justify-center p-4 bg-base-200"> {/* Added bg for contrast */}
       <div className="card w-96 bg-base-100 shadow-xl">

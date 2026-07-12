@@ -18,9 +18,7 @@ function Homepage() {
   useEffect(() => {
     const fetchProblems = async () => {
       try {
-        const { data } = await axiosClient.get('/problem/getAllProblem',{
-          withCredentials: true
-        });
+        const { data } = await axiosClient.get('/problem/getAllProblem');
         setProblems(data);
       } catch (error) {
         console.error('Error fetching problems:', error);
@@ -106,14 +104,19 @@ function Homepage() {
             <option value="all">All Tags</option>
             <option value="array">Array</option>
             <option value="linkedList">Linked List</option>
+            <option value="stack">Stack</option>
+            <option value="queue">Queue</option>
+            <option value="tree">Tree</option>
             <option value="graph">Graph</option>
             <option value="dp">DP</option>
+            <option value="math">Math</option>
           </select>
         </div>
 
         {/* Problems List */}
         <div className="grid gap-4">
-          {filteredProblems.map(problem => (
+          {filteredProblems.length>0? 
+          filteredProblems.map(problem => (
             <div key={problem._id} className="card bg-base-100 shadow-xl">
               <div className="card-body">
                 <div className="flex items-center justify-between">
@@ -142,7 +145,9 @@ function Homepage() {
                 </div>
               </div>
             </div>
-          ))}
+          ))
+          : <div className='text-left font-semibold text-2xl'>No Problem Found!</div>
+        }
         </div>
       </div>
     </div>

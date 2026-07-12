@@ -19,7 +19,7 @@ const problemSchema = new Schema({
     },
     tags:{
         type:String,
-        enum:['array','linkedlist','graph','dp'],
+        enum:['array','linkedlist','graph','dp','math','string','stack','queue','tree'],
         required:true
     },
     //  their can be many visibleTestCase so we take them as array of objects

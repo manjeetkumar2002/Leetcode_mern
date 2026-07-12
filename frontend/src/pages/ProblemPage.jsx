@@ -34,7 +34,6 @@ const ProblemPage = () => {
       try {
         
         const response = await axiosClient.get(`/problem/ProblemById/${problemId}`);
-        console.log("problem :",response.data)
         const initialCode = response?.data?.startCode?.find(sc =>
           sc.language === langMap[selectedLanguage]
         )?.initialCode;

@@ -18,10 +18,8 @@ const userMiddleware = async (req,res,next)=>{
         if(!_id){
             throw new Error("Invalid token")
         }
-
         // find the user if id present in token
         const result = await User.findOne({_id})
-
         if(!result){
             throw new Error("User doesnt exist")
         }

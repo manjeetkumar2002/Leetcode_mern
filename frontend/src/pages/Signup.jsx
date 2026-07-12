@@ -6,17 +6,54 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, NavLink } from 'react-router';
 import { registerUser } from '../authSlice';
 
+const passwordSchema = z.string().superRefine((password, ctx) => {
+  if (password.length < 8) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: "Password must be at least 8 characters",
+    });
+  }
+
+  if (!/[A-Z]/.test(password)) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: "Must contain one uppercase letter",
+    });
+  }
+
+  if (!/[a-z]/.test(password)) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: "Must contain one lowercase letter",
+    });
+  }
+
+  if (!/\d/.test(password)) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: "Must contain one number",
+    });
+  }
+
+  if (!/[@$!%*?&]/.test(password)) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: "Must contain one special character",
+    });
+  }
+});
+
 const signupSchema = z.object({
   firstName: z.string().min(3, "Minimum character should be 3"),
   emailId: z.string().email("Invalid Email"),
-  password: z.string().min(8, "Password is too weak")
+  password: passwordSchema
 });
 
 function Signup() {
   const [showPassword, setShowPassword] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { isAuthenticated, loading } = useSelector((state) => state.auth); // Removed error as it wasn't used
+  const { isAuthenticated, loading} = useSelector((state) => state.auth); // Removed error as it wasn't used
 
   const {
     register,
@@ -33,7 +70,6 @@ function Signup() {
   const onSubmit = (data) => {
     dispatch(registerUser(data));
   };
-
   return (
     <div className="min-h-screen flex items-center justify-center p-4 bg-base-200"> {/* Added a light bg for contrast */}
       <div className="card w-96 bg-base-100 shadow-xl">
@@ -119,7 +155,6 @@ function Signup() {
               </button>
             </div>
           </form>
-
           {/* Login Redirect */}
           <div className="text-center mt-6"> {/* Increased mt for spacing */}
             <span className="text-sm">

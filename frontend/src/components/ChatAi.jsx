@@ -4,11 +4,8 @@ import axiosClient from "../utils/axiosClient";
 import { Send } from 'lucide-react';
 
 function ChatAi({problem}) {
-    const [messages, setMessages] = useState([
-        { role: 'model', parts:[{text: "Hi, How are you"}]},
-        { role: 'user', parts:[{text: "I am Good"}]}
-    ]);
-
+    const [messages, setMessages] = useState([])
+    console.log(messages)
     const { register, handleSubmit, reset,formState: {errors} } = useForm();
     const messagesEndRef = useRef(null);
 
@@ -16,34 +13,44 @@ function ChatAi({problem}) {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
     }, [messages]);
 
-    const onSubmit = async (data) => {
-        
-        setMessages(prev => [...prev, { role: 'user', parts:[{text: data.message}] }]);
-        reset();
+const onSubmit = async (data) => {
+    const userMessage = data.message;
+    
+    
+    const formattedMessages = messages.map(msg => ({
+        role: msg.role === 'model' ? 'model' : 'user',
+        parts: [{ text: msg.parts[0].text }]  
+    }));
+    
+    const updatedMessages = [...formattedMessages, { 
+        role: 'user', 
+        parts: [{ text: userMessage }]  
+    }];
+    
+    setMessages(prev => [...prev, { role: 'user', parts:[{text: userMessage}] }]);
+    reset();
 
-        try {
-            
-            const response = await axiosClient.post("/ai/chat", {
-                messages:messages,
-                title:problem.title,
-                description:problem.description,
-                testCases: problem.visibleTestCases,
-                startCode:problem.startCode
-            });
+    try {
+        const response = await axiosClient.post("/ai/chat", {
+            messages: updatedMessages,  // ✅ Ab sahi format mein jayega
+            title: problem.title,
+            description: problem.description,
+            testCases: problem.visibleTestCases,
+            startCode: problem.startCode
+        });
 
-           
-            setMessages(prev => [...prev, { 
-                role: 'model', 
-                parts:[{text: response.data.message}] 
-            }]);
-        } catch (error) {
-            console.error("API Error:", error);
-            setMessages(prev => [...prev, { 
-                role: 'model', 
-                parts:[{text: "Error from AI Chatbot"}]
-            }]);
-        }
-    };
+        setMessages(prev => [...prev, { 
+            role: 'model', 
+            parts:[{text: response.data.message}] 
+        }]);
+    } catch (error) {
+        console.error("API Error:", error);
+        setMessages(prev => [...prev, { 
+            role: 'model', 
+            parts:[{text: "Error from AI Chatbot"}] 
+        }]);
+    }
+};
 
     return (
         <div className="flex flex-col h-screen max-h-[80vh] min-h-[500px]">

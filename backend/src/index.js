@@ -16,7 +16,7 @@ const cors = require("cors")
 const app = express();
 
 app.use(cors({
-  origin:process.env.CORS_ORIGIN,
+  origin:["http://localhost:5173"],
   credentials:true
 }))
 // parsing req.body and cookie data into js object
@@ -37,7 +37,7 @@ const InitializeConnection = async ()=>{
       console.log("DB Connected")
       // listen to port 
       app.listen(process.env.PORT, () => {
-      console.log("server listening at port number ", process.env.PORT);
+      console.log("Listening at port number ", process.env.PORT);
     })
     }
     catch(err){

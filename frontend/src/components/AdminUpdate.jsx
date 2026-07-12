@@ -6,14 +6,14 @@ const AdminUpdate = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
     
-    
+       useEffect(() => {
+    fetchProblems();
+  }, []);
 
   const fetchProblems = async () => {
     try {
       setLoading(true);
-      const { data } = await axiosClient.get('/problem/getAllProblem',{
-          withCredentials: true
-        });
+      const { data } = await axiosClient.get('/problem/getAllProblem');
       setProblems(data);
     } catch (err) {
       setError('Failed to fetch problems');

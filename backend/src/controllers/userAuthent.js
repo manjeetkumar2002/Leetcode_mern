@@ -25,10 +25,15 @@ const register = async (req,res)=>{
         // send a token to user and store emailId in the token
         // we require a key for sign the token 
         // we can generate a randome jwt key using the  command
-        const token = jwt.sign({_id:user._id,role:"user",emailId:emailId},process.env.JWT_KEY,{expiresIn:60*60})
+        const token = jwt.sign({_id:user._id,role:"user",emailId:emailId},process.env.JWT_KEY,{expiresIn:'7d'})
 
         // store the token into cookie
-        res.cookie("token", token, {maxAge: 60 * 60 * 1000}) // maxAge is expire time of cookie in milliseconds
+        res.cookie("token", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "production"?"None":"Strict",
+      maxAge:7*24*60 * 60 * 1000,
+    }); // maxAge is expire time of cookie in milliseconds
 
         //sending the data to frontend
         const reply = {
@@ -74,10 +79,15 @@ const login = async (req,res)=>{
         }
         
         //  if email and password match send the token 
-        const token = jwt.sign({_id:user._id,role:user.role,emailId:emailId},process.env.JWT_KEY,{expiresIn:60*60})
+        const token = jwt.sign({_id:user._id,role:user.role,emailId:emailId},process.env.JWT_KEY,{expiresIn:'7d'})
 
         // store the token into cookie
-       res.cookie("token", token, {maxAge: 60 * 60 * 1000})// maxAge is expire time of cookie in milliseconds
+       res.cookie("token", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "production"?"None":"Strict",
+      maxAge:7*24*60 * 60 * 1000,
+    });// maxAge is expire time of cookie in milliseconds
 
         // sending the data in json format to frontend
         const reply = {
@@ -111,7 +121,12 @@ const logout = async (req,res)=>{
         //  set the expiry of token
         await redisClient.expireAt(`token:${token}`,payload.exp)
         // clear the cookie
-        res.cookie("token",null,{expires: new Date(Date.now())})
+       res.clearCookie("token", {
+      httpOnly: true,
+      maxAge:7*24*60*60*1000,
+      secure: process.env.NODE_ENV === "production",
+      sameSite:process.env.NODE_ENV === "production" ? "None":"Strict",
+    });
         res.status(200).send("Logout successfully")
     }
     catch (err){
@@ -146,10 +161,15 @@ const adminRegister = async (req,res)=>{
         // send a token to user and store emailId in the token
         // we require a key for sign the token 
         // we can generate a randome jwt key using the  command
-        const token = jwt.sign({_id:user._id,role:user.role,emailId:emailId},process.env.JWT_KEY,{expiresIn:60*60})
+        const token = jwt.sign({_id:user._id,role:user.role,emailId:emailId},process.env.JWT_KEY,{expiresIn:'7d'})
 
         // store the token into cookie
-        res.cookie("token", token, {maxAge: 60 * 60 * 1000}) // maxAge is expire time of cookie in milliseconds
+        res.cookie("token", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite:process.env.NODE_ENV === "production"? "None":"Strict",
+      maxAge:7*24*60 * 60 * 1000,
+    }); // maxAge is expire time of cookie in milliseconds
 
         res.status(201).send("User Register Successfully!")
     }
